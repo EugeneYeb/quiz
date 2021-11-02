@@ -29,35 +29,69 @@ export default function App() {
 				{ answerText: 'Microsoft', isCorrect: false },
 			],
 		},
-		{
-			questionText: 'How many Harry Potter books are there?',
-			answerOptions: [
-				{ answerText: '1', isCorrect: false },
-				{ answerText: '4', isCorrect: false },
-				{ answerText: '6', isCorrect: false },
-				{ answerText: '7', isCorrect: true },
-			],
-		},
+
 	];
 
+	const previousScores = [
+
+	];
+
+	const [currentQuestion, setCurrentQuestion] = useState(0);
+	
+	const [showScore, setShowScore] = useState(false);
+	
+	const [score, setScore] = useState(0);
+
+	const playAgain = () => {
+
+		setCurrentQuestion(0);
+		setShowScore(false);
+		setScore(0);
+
+	}
+
+	const handleAnswerButtonClick = (isCorrect) => {
+
+		if (isCorrect===true) {
+			setScore(score + 1);
+		}
+
+		const nextQuestion = currentQuestion + 1;
+
+		if (nextQuestion < questions.length) {
+			setCurrentQuestion(nextQuestion);
+		} else {
+			setShowScore(true);
+			console.log(score+1);
+
+			console.log(previousScores);
+			previousScores.push(score+1);
+			console.log(previousScores);
+
+		}
+	}
 	return (
 		<div className='app'>
+
 			{/* HINT: replace "false" with logic to display the 
       score when the user has answered all the questions */}
-			{false ? (
-				<div className='score-section'>You scored 1 out of {questions.length}</div>
+			{showScore ? (
+				<div className='score-section'>You scored {score} out of {questions.length}
+				<button onClick = {playAgain}> Play Again</button>
+				{previousScores}
+				</div>
 			) : (
 				<>
 					<div className='question-section'>
 						<div className='question-count'>
-							<span>Question 1</span>/{questions.length}
+							<span>Question {currentQuestion + 1}</span>/{questions.length}
 						</div>
-						<div className='question-text'>{ questions[0].questionText}</div>
+						<div className='question-text'>{ questions[currentQuestion].questionText }</div>
 					</div>
 					<div className='answer-section'>
 
-						{ questions[0].answerOptions.map((answerOption)=> (
-						<button> {answerOption.answerText} </button>
+						{ questions[currentQuestion].answerOptions.map((answerOption)=> (
+						<button onClick = { () => handleAnswerButtonClick(answerOption.isCorrect)}> {answerOption.answerText} </button>
 						))}
 
 					</div>
