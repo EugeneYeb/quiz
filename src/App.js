@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 export default function App() {
+	const previousScores = [];
 	const questions = [
 		{
 			questionText: 'What is the capital of France?',
@@ -32,14 +33,9 @@ export default function App() {
 
 	];
 
-	const previousScores = [
-
-	];
 
 	const [currentQuestion, setCurrentQuestion] = useState(0);
-	
 	const [showScore, setShowScore] = useState(false);
-	
 	const [score, setScore] = useState(0);
 
 	const playAgain = () => {
@@ -62,9 +58,7 @@ export default function App() {
 			setCurrentQuestion(nextQuestion);
 		} else {
 			setShowScore(true);
-			console.log(score+1);
 
-			console.log(previousScores);
 			previousScores.push(score+1);
 			console.log(previousScores);
 
@@ -73,12 +67,10 @@ export default function App() {
 	return (
 		<div className='app'>
 
-			{/* HINT: replace "false" with logic to display the 
-      score when the user has answered all the questions */}
 			{showScore ? (
 				<div className='score-section'>You scored {score} out of {questions.length}
 				<button onClick = {playAgain}> Play Again</button>
-				{previousScores}
+				
 				</div>
 			) : (
 				<>
